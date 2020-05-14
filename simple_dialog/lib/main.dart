@@ -33,9 +33,8 @@ class _MyHomePageState extends State<MyHomePage> {
   BoxFit _boxFit = BoxFit.cover;
 
   void _showBoxFitDialog() async {
-
     BoxFit boxFit = await showDialog<BoxFit>(
-        context: context, 
+        context: context,
         builder: (BuildContext context) {
           return SimpleDialog(
             title: Text("Select Box Fit"),
@@ -84,13 +83,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           );
-        }
-      );
-      if(boxFit != null) {
-        setState(() {
-          _boxFit = boxFit;
         });
-      }
+    if (boxFit != null) {
+      setState(() {
+        _boxFit = boxFit;
+      });
+    }
   }
 
   void _incrementCounter() {
@@ -102,11 +100,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> kittenTiles = [];
-    for (var i = 200; i < 1000; i+=100) {
+    for (var i = 200; i < 1000; i += 100) {
       String imageUrl = "http://placekitten.com/200/${i}";
       kittenTiles.add(GridTile(
         child: Image.network(imageUrl, fit: _boxFit),
-        ));
+      ));
     }
     return Scaffold(
       appBar: AppBar(
