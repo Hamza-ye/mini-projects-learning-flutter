@@ -6,3 +6,6 @@ From Learn Google Flutter Fast 65 Example Apps book by Mark Clow.
 
 This app shows a GridView with kitten images. It allows the user to select how the kitten images are fitted into their available screen space.
 
+![appImage.png](images/appImage.png)
+
+![appImage.png](images/appImage2.png)
