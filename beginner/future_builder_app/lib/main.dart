@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -5,21 +6,34 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Future Builder App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Future Builder Home Page'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  String computeListOfTimestamps(int count) {
+    StringBuffer sb = StringBuffer();
+    for (int i = 0; i < count; i++) {
+      sb.writeln('${i + 1} : ${DateTime.now()}');
+    }
+    return sb.toString();
+  }
+
+  Future<String> createFutureCalculation(int count) {
+    return new Future(() {
+      return computeListOfTimestamps(count);
+    });
+  }
+
   MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -29,16 +43,42 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  bool _showCalculation = false;
 
-  void _incrementCounter() {
+  void _onInvokeFuturePressed() {
     setState(() {
-      _counter++;
+      _showCalculation = !_showCalculation;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget child = _showCalculation
+        ? FutureBuilder(
+            future: widget.createFutureCalculation(10000),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return Expanded(
+                  child: SingleChildScrollView(
+                    child: Text(
+                      '${snapshot.data == null ? "" : snapshot.data}',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                  ),
+                );
+              } else {
+                return Container(
+                    child: Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.blue,
+                    strokeWidth: 3.0,
+                  ),
+                ));
+              }
+            },
+          )
+        : Text('hit the button to show calculation');
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -46,22 +86,14 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+          children: <Widget>[child],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), 
+        onPressed: _onInvokeFuturePressed,
+        tooltip: 'Invoke Future',
+        child: Icon(Icons.refresh),
+      ),
     );
   }
 }
