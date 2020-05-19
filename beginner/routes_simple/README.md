@@ -6,6 +6,8 @@ From Learn Google Flutter Fast 65 Example Apps book by Mark Clow.
 
 This example app allows you to navigate from Customers to Customer Info including Orders to Order Info.
 
-<img src="images/appImage.png" width="40%">
+<img src="images/appImage.png" width="35%">
 
-<img src="images/appImage2.png" width="40%">
+<img src="images/appImage2.png" width="35%">
+
+<img src="images/appImage3.png" width="35%">
