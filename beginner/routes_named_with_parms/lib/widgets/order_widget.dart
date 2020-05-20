@@ -16,7 +16,7 @@ class OrderWidget extends StatelessWidget {
         context.inheritFromWidgetOfExactType(DataContainerWidget);
 
     Customer customer = data.getCustomerForOrderId(_id);
-    
+
     Order order = data.getOrder(_id);
     return new Scaffold(
         appBar: new AppBar(
