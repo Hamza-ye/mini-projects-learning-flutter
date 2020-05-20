@@ -1,16 +1,13 @@
-# routes_named_with_parms
+# Example – ‘routes_named_with_parms’
 
-A new Flutter project.
+From Learn Google Flutter Fast 65 Example Apps book by Mark Clow.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This app looks and feels the same as the route_named example but this time it passes the customer and order identifiers to the Customer and Order Widgets.
 
-A few resources to get you started if this is your first Flutter project:
+<img src="images/appImage.png" width="35%">
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+<img src="images/appImage2.png" width="35%">
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="images/appImage3.png" width="35%">
