@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'models/person.dart';
-
 void main() {
   runApp(MyApp());
 }
@@ -37,6 +36,7 @@ class MyHomePage extends StatelessWidget {
       ),
       body: Center(
         child: Padding(
+          padding: EdgeInsets.all(20.0),
           child: ListView(
             children: <Widget>[
               Padding(
