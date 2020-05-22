@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as HTTP;
+
+import 'widgets/employee_list_widget.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: EmployeeListWidget(),
     );
   }
 }
