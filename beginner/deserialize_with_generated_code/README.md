@@ -8,4 +8,4 @@ This app lets you enter the JSON for a person then hit the floating button to de
 *If successful, a ‘toString()’ of the Person object is displayed underneath (in black). 
 *If an error occurs (maybe you input bad JSON?), it is displayed underneath (in red). 
 
-<img src="images/appImage.png" width="35%">
+<img src="images/appImage.png" width="25%">
