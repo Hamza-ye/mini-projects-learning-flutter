@@ -7,18 +7,16 @@ import 'please_wait_widget.dart';
 
 class EmployeeListWidget extends StatefulWidget {
   @override
-  _EmployeeListWidgetState createState() => _EmployeeListWidgetState();
+  _EmployeeListWidgetState createState() => new _EmployeeListWidgetState();
 }
 
 class _EmployeeListWidgetState extends State<EmployeeListWidget> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final PleaseWaitWidget _pleaseWaitWidget =
       PleaseWaitWidget(key: ObjectKey("pleaseWaitWidget"));
-
   bool _refresh = true;
   List<Employee> _employees;
   bool _pleaseWait = false;
-
   _showSnackBar(String content, {bool error = false}) {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content:
@@ -26,12 +24,16 @@ class _EmployeeListWidgetState extends State<EmployeeListWidget> {
     ));
   }
 
+  _showPleaseWait(bool b) {
+    setState(() {
+      _pleaseWait = b;
+    });
+  }
+
   _navigateToEmployee(BuildContext context, String employeeId) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => EmployeeDetailWidget(employeeId),
-      ),
+      MaterialPageRoute(builder: (context) => EmployeeDetailWidget(employeeId)),
     ).then((result) {
       if ((result != null) && (result is bool) && (result == true)) {
         _showSnackBar('Employee saved.');
@@ -49,6 +51,9 @@ class _EmployeeListWidgetState extends State<EmployeeListWidget> {
             _showPleaseWait(false);
             _showSnackBar('Employee deleted.');
             _refreshEmployees();
+          }).catchError((error) {
+            _showPleaseWait(false);
+            _showSnackBar(error.toString(), error: true);
           });
         } catch (e) {
           _showPleaseWait(false);
@@ -60,36 +65,40 @@ class _EmployeeListWidgetState extends State<EmployeeListWidget> {
 
   Future<bool> _showDeleteConfirmDialog(Employee employee) async {
     return await showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Delete Employee'),
-          content:
-              Text('Are you sure you want to delete ${employee.employeeName}?'),
-          actions: <Widget>[
-            FlatButton(
-              onPressed: () {
-                Navigator.pop(context, true);
-              },
-              child: Text('No'),
-            ),
-            FlatButton(
-              onPressed: () {
-                Navigator.pop(context, true);
-              },
-              child: Text('No'),
-            ),
-          ],
-        );
-      },
-    );
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Delete Employee'),
+            content: Text(
+                'Are you sure you want to delete ${employee.employeeName}?'),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
+                child: const Text('Yes'),
+              ),
+              FlatButton(
+                onPressed: () {
+                  Navigator.pop(context, false);
+                },
+                child: const Text('No'),
+              )
+            ],
+          );
+        });
+  }
+
+  _refreshEmployees() {
+    setState(() {
+      _refresh = true;
+    });
   }
 
   _loadEmployees(BuildContext context) {
     _showPleaseWait(true);
     try {
       ApiWidget.of(context).loadAndParseEmployees().then((employees) {
-// Sort first.
         employees.sort((a, b) => a.employeeName
             .toLowerCase()
             .compareTo(b.employeeName.toLowerCase()));
@@ -107,24 +116,13 @@ class _EmployeeListWidgetState extends State<EmployeeListWidget> {
     }
   }
 
-  _showPleaseWait(bool b) {
-    setState(() {
-      _pleaseWait = b;
-    });
-  }
-
-  _refreshEmployees() {
-    setState(() {
-      _refresh = true;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_refresh) {
       _refresh = false;
       _loadEmployees(context);
     }
+    print(_employees);
     ListView builder = ListView.builder(
         itemCount: _employees != null ? _employees.length : 0,
         itemBuilder: (context, index) {
@@ -141,8 +139,8 @@ class _EmployeeListWidgetState extends State<EmployeeListWidget> {
         : Stack(key: ObjectKey("stack"), children: [builder]);
     return Scaffold(
         key: _scaffoldKey,
-        appBar: new AppBar(
-          title: new Text("Employees"),
+        appBar: AppBar(
+          title: Text("Employees"),
           actions: <Widget>[
             IconButton(
                 icon: Icon(Icons.add),
@@ -158,7 +156,7 @@ class _EmployeeListWidgetState extends State<EmployeeListWidget> {
                 })
           ],
         ),
-        body: new Center(
+        body: Center(
           child: bodyWidget,
         ));
   }

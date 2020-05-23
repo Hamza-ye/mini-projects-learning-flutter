@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as HTTP;
 import 'package:http/http.dart';
-
 import 'package:http_employees/models/employee.dart';
 
 class ApiWidget extends InheritedWidget {
@@ -15,14 +14,12 @@ class ApiWidget extends InheritedWidget {
     @required Widget child,
   })  : assert(child != null),
         super(key: key, child: child);
-
   static ApiWidget of(BuildContext context) {
     return context.inheritFromWidgetOfExactType(ApiWidget) as ApiWidget;
   }
 
   @override
-  bool updateShouldNotify(InheritedWidget oldWidget) {
-    // TODO: implement updateShouldNotify
+  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
     return false;
   }
 
@@ -30,9 +27,10 @@ class ApiWidget extends InheritedWidget {
     var url = '${_BASE_URL}/employees';
     final response = await HTTP.get(url).timeout(_TIMEOUT);
     if (response.statusCode == 200) {
-      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+      final parsed = json.decode(response.body);
+      List<dynamic> data = parsed['data'];
       var list =
-          parsed.map<Employee>((json) => Employee.fromJson(json)).toList();
+          data.map<Employee>((json) => Employee.fromJson(json)).toList();
       return list;
     } else {
       badStatusCode(response);
@@ -53,14 +51,14 @@ class ApiWidget extends InheritedWidget {
   Future<dynamic> saveEmployee(Employee employee) async {
     bool isUpdate = employee.id.isNotEmpty;
     final uri = _BASE_URL + (isUpdate ? '/update/${employee.id}' : '/create');
-    // profile image does not seem to update
+// profile image does not seem to update
     final response = isUpdate
         ? await HTTP.put(uri, body: json.encode(employee)).timeout(_TIMEOUT)
         : await HTTP.post(uri, body: json.encode(employee)).timeout(_TIMEOUT);
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
-      // If that response was not OK, throw an error.
+// If that response was not OK, throw an error.
       badStatusCode(response);
     }
   }
@@ -71,7 +69,7 @@ class ApiWidget extends InheritedWidget {
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
-      // If that response was not OK, throw an error.
+// If that response was not OK, throw an error.
       badStatusCode(response);
     }
   }

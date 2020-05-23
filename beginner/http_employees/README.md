@@ -8,3 +8,5 @@ This example app connects to dummy Api and enables you to add employees, update 
 This example app should also demonstrate how you may sometimes encounter errors when communicating with Apis. For example, the dummy Api doesn’t allow the same employee name twice. If you enter the same employee name twice and attempt to save, then the dummy Api will return an error and this is displayed to the user. This could be handled more gracefully but at least it catches it and shows some information at the bottom.
 
 <img src="images/appImage.png" width="25%">
+
+<img src="images/appImage2.png" width="25%">
