@@ -27,10 +27,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final String title;
+  String _title;
   List<Car> _cars;
+  Car _selectedCar;
 
-  _MyHomePageState(this.title) {
+  _selectionHandler(Car selectedCar) {
+    setState(() {
+      _title = "Selected ${selectedCar.make}, ${selectedCar.model}";
+      _selectedCar = selectedCar;
+    });
+  }
+  _MyHomePageState(this._title) {
     _cars = [
       Car("Bmw", "M3",
           "Https://media.ed.edmunds-media.com/bmw/m3/2018/oem/2018_bmw_m3_sedan_base_fq_oem_4_150.jpg"),
@@ -43,11 +50,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<CarWidget> carWidgets = _cars.map((Car car) => CarWidget(car)).toList();
+    List<CarWidget> carWidgets = _cars.map((Car car) => CarWidget(car,  car == _selectedCar, _selectionHandler)).toList();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(_title),
       ),
       body: ListView(
         children: carWidgets,
