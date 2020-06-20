@@ -82,6 +82,7 @@ class CarsInheritedWidget extends InheritedWidget {
 
   @override
   bool updateShouldNotify(CarsInheritedWidget old) => true;
+  
   static CarsInheritedWidget of(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(CarsInheritedWidget));
   }
