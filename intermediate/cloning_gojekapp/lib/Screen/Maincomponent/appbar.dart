@@ -18,7 +18,7 @@ AppBar appbar() {
           height: 23.0,
           width: 85.0,
           decoration: BoxDecoration(
-              color: Color(0xFFFEF8ED),
+              color: Color(0xCCBEF8ED),
               borderRadius: BorderRadius.circular(12)),
           child: Row(
             children: <Widget>[

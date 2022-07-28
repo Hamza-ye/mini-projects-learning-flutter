@@ -19,8 +19,8 @@ class GopayService extends StatelessWidget {
         ),
         child: Column(
           children: <Widget>[
-            Gopay(),
             Headerbutton(),
+            Gopay(),
           ],
         ),
       ),
